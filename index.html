@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS Prévention - Quiz sécurité</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--main:#0f766e;--main2:#14b8a6;--danger:#dc2626;--ok:#16a34a;--warn:#f59e0b}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#eef2ff,#ecfeff);color:var(--text)}.wrap{max-width:920px;margin:auto;padding:22px}.hero{background:linear-gradient(135deg,#0f766e,#0f172a);color:white;border-radius:26px;padding:30px;box-shadow:0 18px 45px #0002}.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:999px;font-size:13px}.hero h1{font-size:34px;margin:18px 0 8px}.hero p{line-height:1.55;margin:0;color:#e5e7eb}.card{background:var(--card);border-radius:24px;padding:24px;margin-top:20px;box-shadow:0 12px 30px #0f172a14}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.mini{background:#f8fafc;border:1px solid #e5e7eb;border-radius:18px;padding:15px}.mini b{display:block;margin-bottom:6px}.input{width:100%;padding:14px 15px;border-radius:14px;border:1px solid #d1d5db;font-size:16px}.btn{border:0;border-radius:15px;padding:14px 18px;background:var(--main);color:white;font-weight:700;cursor:pointer;font-size:16px}.btn:hover{background:#115e59}.btn.secondary{background:#0f172a}.btn.light{background:#e5e7eb;color:#111827}.question{font-size:22px;font-weight:800;margin:0 0 16px}.choices{display:grid;gap:10px}.choice{border:1px solid #d1d5db;background:#fff;border-radius:16px;padding:15px;cursor:pointer;text-align:left;font-size:16px}.choice:hover{border-color:var(--main);background:#f0fdfa}.choice.correct{background:#dcfce7;border-color:#16a34a}.choice.wrong{background:#fee2e2;border-color:#dc2626}.progress{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:18px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--main),var(--main2));transition:.35s}.hidden{display:none}.result{font-size:44px;font-weight:900;text-align:center;margin:10px 0}.ok{color:var(--ok)}.ko{color:var(--danger)}.muted{color:var(--muted)}.cert{border:2px dashed #0f766e;border-radius:22px;padding:24px;text-align:center;background:#f0fdfa;margin-top:18px}.footer{text-align:center;color:#64748b;font-size:13px;margin:25px}.pill{display:inline-block;background:#ecfdf5;color:#065f46;border-radius:999px;padding:7px 10px;font-size:13px;margin:3px}table{width:100%;border-collapse:collapse;margin-top:10px}td,th{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}@media print{body{background:white}.btn,.no-print{display:none}.wrap{padding:0}.card,.hero{box-shadow:none}.hero{color:#111;background:white;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <span class="badge">Parcours d’intégration santé · sécurité · prévention</span>
+    <h1>RS Prévention</h1>
+    <p>Quiz obligatoire avant prise de poste pour sensibiliser les nouveaux collaborateurs aux principaux risques du métier de chauffeur-livreur : risque routier, manutention, EPI, accident du travail et vigilance quotidienne.</p>
+  </section>
+
+  <section id="home" class="card">
+    <h2>Bienvenue dans le module sécurité</h2>
+    <p class="muted">Ce support s’inscrit dans la démarche DUERP et QVCT de l’entreprise. Il permet de vérifier que les consignes essentielles sont comprises avant la prise de poste.</p>
+    <div class="grid">
+      <div class="mini"><b>🚚 Risque routier</b><span>Fatigue, vitesse, téléphone, vigilance.</span></div>
+      <div class="mini"><b>📦 Manutention</b><span>Gestes, postures, charges et TMS.</span></div>
+      <div class="mini"><b>🦺 EPI</b><span>Gilet, chaussures de sécurité, visibilité.</span></div>
+      <div class="mini"><b>🚨 Accident</b><span>Alerte, déclaration et conduite à tenir.</span></div>
+    </div>
+    <br>
+    <label>Nom et prénom du salarié</label><br><br>
+    <input id="name" class="input" placeholder="Ex : Jean Dupont">
+    <br><br>
+    <button class="btn" onclick="startQuiz()">Commencer le quiz</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="progress"><div id="bar" class="bar"></div></div>
+    <p class="muted" id="step"></p>
+    <p class="question" id="q"></p>
+    <div id="choices" class="choices"></div>
+    <br>
+    <p id="feedback" class="muted"></p>
+    <button id="next" class="btn hidden" onclick="nextQuestion()">Question suivante</button>
+  </section>
+
+  <section id="end" class="card hidden">
+    <h2>Résultat du quiz</h2>
+    <div id="score" class="result"></div>
+    <p id="message"></p>
+    <div id="recap"></div>
+    <div id="certificate" class="cert hidden">
+      <h2>Attestation de sensibilisation prévention</h2>
+      <p>Ce document atteste que :</p>
+      <h3 id="certName"></h3>
+      <p>a réalisé le quiz d’intégration santé-sécurité RS Prévention.</p>
+      <p><b>Score obtenu :</b> <span id="certScore"></span></p>
+      <p><b>Date :</b> <span id="certDate"></span></p>
+      <p class="muted">Cette attestation constitue une preuve de sensibilisation interne et ne remplace pas une formation réglementaire lorsque celle-ci est obligatoire.</p>
+    </div>
+    <br>
+    <button class="btn" onclick="window.print()">Imprimer / enregistrer l’attestation</button>
+    <button class="btn light" onclick="restart()">Recommencer</button>
+  </section>
+
+  <div class="footer">RS Prévention · Support pédagogique de sensibilisation santé-sécurité</div>
+</div>
+<script>
+const questions=[
+{c:'Risque routier',q:'Quelle est la bonne conduite à adopter en cas de fatigue importante pendant une tournée ?',a:['Continuer pour finir plus vite','S’arrêter dans un endroit sécurisé et prévenir son responsable si nécessaire','Boire un café et accélérer'],ok:1,exp:'La fatigue augmente fortement le risque d’accident. La priorité est de se mettre en sécurité.'},
+{c:'Risque routier',q:'L’utilisation du téléphone au volant est :',a:['Tolérée si l’appel est court','Autorisée uniquement en ville','Interdite car elle détourne l’attention de la conduite'],ok:2,exp:'Le téléphone réduit l’attention et augmente le risque routier.'},
+{c:'Manutention',q:'Pour soulever un colis, il faut principalement :',a:['Garder les jambes tendues et tirer avec le dos','Plier les genoux, garder le dos droit et rapprocher la charge du corps','Porter la charge à bout de bras'],ok:1,exp:'Les bons gestes limitent les troubles musculosquelettiques.'},
+{c:'EPI',q:'Quels équipements sont indispensables lors des opérations de livraison ?',a:['Chaussures de sécurité et gilet haute visibilité selon les situations','Uniquement une veste personnelle','Aucun équipement si la livraison est rapide'],ok:0,exp:'Les EPI protègent contre les chutes, chocs et risques liés à la circulation.'},
+{c:'Accident du travail',q:'En cas d’accident du travail, la première chose à faire est :',a:['Ne rien dire pour éviter les démarches','Prévenir rapidement le responsable et sécuriser la situation','Attendre la fin de la journée'],ok:1,exp:'L’information rapide permet la prise en charge, la déclaration et l’analyse de l’accident.'},
+{c:'Prévention',q:'Le DUERP sert principalement à :',a:['Identifier, évaluer et prévenir les risques professionnels','Remplacer le contrat de travail','Contrôler uniquement les salariés'],ok:0,exp:'Le DUERP structure la prévention et le plan d’actions de l’entreprise.'},
+{c:'RPS',q:'Le stress, la pression des délais et la fatigue peuvent être considérés comme :',a:['Des risques psychosociaux à prendre en compte','Des problèmes personnels uniquement','Des sujets sans lien avec le travail'],ok:0,exp:'Les risques psychosociaux font partie de la prévention santé-sécurité.'},
+{c:'Situation dangereuse',q:'Si un salarié observe une situation dangereuse, il doit :',a:['L’ignorer si personne n’est blessé','La signaler au responsable ou au référent prévu','La publier sur les réseaux sociaux'],ok:1,exp:'Le signalement permet de corriger le risque avant l’accident.'},
+{c:'Véhicule',q:'Avant le départ en tournée, il est recommandé de vérifier :',a:['L’état général du véhicule, les pneus, les feux et les documents nécessaires','Uniquement le niveau de carburant','Rien si le véhicule roulait hier'],ok:0,exp:'Les vérifications limitent les pannes et les accidents.'},
+{c:'Validation',q:'La prévention est efficace lorsque :',a:['Elle reste uniquement dans un document','Elle est comprise, appliquée et suivie dans le temps','Elle concerne seulement la direction'],ok:1,exp:'La prévention doit devenir une pratique quotidienne partagée.'}
+];
+let i=0,score=0,answers=[],employee='';
+function startQuiz(){employee=document.getElementById('name').value.trim();if(!employee){alert('Indique le nom du salarié avant de commencer.');return}document.getElementById('home').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');showQuestion()}
+function showQuestion(){let x=questions[i];document.getElementById('step').textContent='Question '+(i+1)+' / '+questions.length+' · '+x.c;document.getElementById('q').textContent=x.q;document.getElementById('bar').style.width=(i/questions.length*100)+'%';document.getElementById('feedback').textContent='';document.getElementById('next').classList.add('hidden');let box=document.getElementById('choices');box.innerHTML='';x.a.forEach((t,idx)=>{let b=document.createElement('button');b.className='choice';b.textContent=t;b.onclick=()=>selectAnswer(idx,b);box.appendChild(b)})}
+function selectAnswer(idx,btn){let x=questions[i];let buttons=document.querySelectorAll('.choice');buttons.forEach(b=>b.disabled=true);if(idx===x.ok){score++;btn.classList.add('correct')}else{btn.classList.add('wrong');buttons[x.ok].classList.add('correct')}answers.push({q:x.q,cat:x.c,ok:idx===x.ok});document.getElementById('feedback').textContent=x.exp;document.getElementById('next').classList.remove('hidden')}
+function nextQuestion(){i++;if(i<questions.length){showQuestion()}else{finish()}}
+function finish(){document.getElementById('quiz').classList.add('hidden');document.getElementById('end').classList.remove('hidden');document.getElementById('bar').style.width='100%';let pct=Math.round(score/questions.length*100);let pass=pct>=80;document.getElementById('score').className='result '+(pass?'ok':'ko');document.getElementById('score').textContent=pct+' %';document.getElementById('message').innerHTML=pass?'✅ Validation réussie. Le salarié a obtenu le score minimum recommandé de 80 %.':'⚠️ Validation non atteinte. Il est recommandé de refaire le module avant la prise de poste.';let cats={};answers.forEach(r=>{if(!cats[r.cat])cats[r.cat]={ok:0,n:0};cats[r.cat].n++;if(r.ok)cats[r.cat].ok++});let html='<h3>Tableau de bord synthétique</h3><table><tr><th>Thème</th><th>Résultat</th></tr>';Object.keys(cats).forEach(k=>{html+='<tr><td>'+k+'</td><td>'+cats[k].ok+' / '+cats[k].n+'</td></tr>'});html+='</table><p><span class="pill">Taux de réalisation : 100 %</span><span class="pill">Score minimum : 80 %</span><span class="pill">Nombre de questions : '+questions.length+'</span></p>';document.getElementById('recap').innerHTML=html;if(pass){document.getElementById('certificate').classList.remove('hidden');document.getElementById('certName').textContent=employee;document.getElementById('certScore').textContent=pct+' %';document.getElementById('certDate').textContent=new Date().toLocaleDateString('fr-FR')}}
+function restart(){i=0;score=0;answers=[];document.getElementById('end').classList.add('hidden');document.getElementById('home').classList.remove('hidden')}
+</script>
+</body>
+</html>
